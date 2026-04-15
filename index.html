@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Comisiones | Material Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --md-blue: #1976D2;
+            --md-orange: #FF9800;
+            --md-bg: #F5F5F5;
+            --md-card: #FFFFFF;
+            --md-text: #212121;
+            --md-text-secondary: #757575;
+            --md-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--md-bg);
+            color: var(--md-text);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .card {
+            background: var(--md-card);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--md-shadow);
+        }
+
+        h1 { color: var(--md-blue); font-weight: 500; text-align: center; margin-bottom: 30px; }
+        h2 { color: var(--md-orange); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .label-main { font-weight: 500; font-size: 0.95rem; }
+        
+        .field-label { font-size: 0.75rem; color: var(--md-text-secondary); display: block; margin-bottom: 4px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid #e0e0e0;
+            background: #fafafa;
+            border-radius: 4px 4px 0 0;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom-color: var(--md-blue);
+            background: #f0f4ff;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            grid-column: span 3;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            margin-top: -10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--md-blue);
+            transition: width 0.5s ease-out;
+        }
+
+        .perc-indicator {
+            font-size: 0.8rem;
+            color: var(--md-blue);
+            font-weight: bold;
+            text-align: right;
+        }
+
+        button {
+            background-color: var(--md-blue);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #1565C0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .result-panel {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 8px;
+            background: #f1f8e9;
+            border: 1px solid #c5e1a5;
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .total-value {
+            font-size: 2.5rem;
+            color: #2e7d32;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .tramo-chip {
+            background: var(--md-orange);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Calculadora de Comisiones</h1>
+    
+    <h2>Cumplimiento (Máx 130%)</h2>
+    
+    <div class="input-group">
+        <div class="label-main">Suscripción (50%)</div>
+        <div><span class="field-label">Meta</span><input type="number" id="m_susc" value="58"></div>
+        <div><span class="field-label">Venta</span><input type="number" id="v_susc" value="0" oninput="actualizarBarras()"></div>
+        <div class="progress-container"><div id="bar_susc" class="progress-bar"></div></div>
+        <div class="perc-indicator" id="txt_p_susc" style="grid-column: span 3;">0%</div>
+    </div>
+
+    <div class="input-group">
+        <div class="label-main">Porta Post (30%)</div>
+        <div><span class="field-label">Meta</span><input type="number" id="m_porta" value="38"></div>
+        <div><span class="field-label">Venta</span><input type="number" id="v_porta" value="0" oninput="actualizarBarras()"></div>
+        <div class="progress-container"><div id="bar_porta" class="progress-bar"></div></div>
+        <div class="perc-indicator" id="txt_p_porta" style="grid-column: span 3;">0%</div>
+    </div>
+
+    <div class="input-group">
+        <div class="label-main">Fibra (20%)</div>
+        <div><span class="field-label">Meta</span><input type="number" id="m_fibra" value="5"></div>
+        <div><span class="field-label">Venta</span><input type="number" id="v_fibra" value="0" oninput="actualizarBarras()"></div>
+        <div class="progress-container"><div id="bar_fibra" class="progress-bar"></div></div>
+        <div class="perc-indicator" id="txt_p_fibra" style="grid-column: span 3;">0%</div>
+    </div>
+
+    <h2>Unidades para Liquidación</h2>
+    <div class="input-group" style="grid-template-columns: 3fr 1fr;">
+        <div class="label-main">Voz Captura / Porta Prepago / MIS</div>
+        <input type="number" id="q_captura" value="0">
+    </div>
+    <div class="input-group" style="grid-template-columns: 3fr 1fr;">
+        <div class="label-main">Voz Base</div>
+        <input type="number" id="q_base" value="0">
+    </div>
+    <div class="input-group" style="grid-template-columns: 3fr 1fr;">
+        <div class="label-main">Portabilidad SS a SS</div>
+        <input type="number" id="q_ss" value="0">
+    </div>
+    <div class="input-group" style="grid-template-columns: 3fr 1fr;">
+        <div class="label-main">Fibra Óptica (Hogar)</div>
+        <input type="number" id="q_fibra" value="0">
+    </div>
+
+    <button onclick="calcularComision()">Calcular Ingresos</button>
+
+    <div id="panel_resultado" class="result-panel">
+        <span id="res_tramo" class="tramo-chip">TRAMO 0</span>
+        <div style="margin-top: 15px; color: var(--md-text-secondary);">Cumplimiento Ponderado: <strong id="res_cumpl">0%</strong></div>
+        <div class="total-value" id="res_total">$0</div>
+        <div style="font-size: 0.8rem; color: #558b2f;">* Basado en anexo de contrato vigente al 01 de abril 2026. [cite: 3, 65]</div>
+    </div>
+</div>
+
+<script>
+    function actualizarBarras() {
+        const indicadores = ['susc', 'porta', 'fibra'];
+        indicadores.forEach(id => {
+            const meta = parseFloat(document.getElementById('m_'+id).value) || 1;
+            const venta = parseFloat(document.getElementById('v_'+id).value) || 0;
+            let perc = (venta / meta) * 100;
+            
+            // Mostrar real en texto pero limitar visualmente barra y cálculo
+            document.getElementById('txt_p_'+id).innerText = perc.toFixed(1) + '%';
+            
+            // Barra visual limitada a 100% para estética, o 130%
+            let visualPerc = Math.min(perc, 130);
+            document.getElementById('bar_'+id).style.width = (visualPerc / 1.3) + '%'; 
+            document.getElementById('bar_'+id).style.backgroundColor = perc >= 100 ? '#4CAF50' : '#1976D2';
+        });
+    }
+
+    function calcularComision() {
+        const calcPerc = (id) => {
+            const m = parseFloat(document.getElementById('m_'+id).value) || 1;
+            const v = parseFloat(document.getElementById('v_'+id).value) || 0;
+            return Math.min((v / m) * 100, 130); // Límite de 130% según tu instrucción
+        };
+
+        const pSusc = calcPerc('susc');
+        const pPorta = calcPerc('porta');
+        const pFibra = calcPerc('fibra');
+
+        const cumpliPonderado = (pSusc * 0.5) + (pPorta * 0.3) + (pFibra * 0.2);
+        
+        let tramo = 0;
+        let p = { cap: 0, base: 0, ss: 0, fib: 0 };
+
+        // Escala de Tramos del Contrato [cite: 27]
+        if (cumpliPonderado >= 116) {
+            tramo = 5; p = { cap: 1000, base: 2000, ss: 3500, fib: 20000 };
+        } else if (cumpliPonderado >= 106) {
+            tramo = 4; p = { cap: 800, base: 1500, ss: 2800, fib: 15000 };
+        } else if (cumpliPonderado >= 100) {
+            tramo = 3; p = { cap: 500, base: 1000, ss: 2300, fib: 10000 };
+        } else if (cumpliPonderado >= 90) {
+            tramo = 2; p = { cap: 400, base: 800, ss: 1200, fib: 6000 };
+        } else if (cumpliPonderado >= 80) {
+            tramo = 1; p = { cap: 350, base: 500, ss: 800, fib: 5000 };
+        }
+
+        const total = 
+            (document.getElementById('q_captura').value * p.cap) +
+            (document.getElementById('q_base').value * p.base) +
+            (document.getElementById('q_ss').value * p.ss) +
+            (document.getElementById('q_fibra').value * p.fib);
+
+        document.getElementById('panel_resultado').style.display = 'block';
+        document.getElementById('res_tramo').innerText = 'TRAMO ' + tramo;
+        document.getElementById('res_cumpl').innerText = cumpliPonderado.toFixed(2) + '%';
+        document.getElementById('res_total').innerText = '$' + total.toLocaleString('es-CL');
+    }
+</script>
+
+</body>
+</html>
