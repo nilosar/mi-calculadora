@@ -3,32 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Comisiones OK</title>
+    <title>Calculadora Comisiones Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --blue: #1976D2; --orange: #FF9800; --green: #2E7D32; --bg: #f0f2f5;
-        }
-        body { font-family: 'Roboto', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 15px; margin: 0; }
-        .card { background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h1 { color: var(--blue); text-align: center; font-size: 1.4rem; margin-bottom: 20px; }
-        h2 { color: var(--orange); font-size: 0.9rem; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 20px; }
+        :root { --blue: #1976D2; --orange: #FF9800; --green: #2E7D32; --bg: #f0f2f5; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 10px; margin: 0; }
+        .card { background: white; width: 100%; max-width: 450px; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h1 { color: var(--blue); text-align: center; font-size: 1.2rem; margin-bottom: 15px; }
+        h2 { color: var(--orange); font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid #eee; margin: 15px 0 10px 0; }
         
-        .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: center; margin-bottom: 15px; }
-        .grid-units { display: grid; grid-template-columns: 3fr 1fr; gap: 10px; margin-bottom: 8px; }
+        .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
+        .grid-units { display: grid; grid-template-columns: 3fr 1fr; gap: 8px; margin-bottom: 5px; }
         
-        label { font-size: 0.8rem; color: #555; font-weight: bold; }
-        input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; box-sizing: border-box; background: #fafafa; }
-        input:focus { outline: none; border-color: var(--blue); background: #fff; }
-
-        .progress-bg { grid-column: span 3; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; position: relative; }
+        label { font-size: 0.75rem; color: #666; font-weight: bold; }
+        input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; box-sizing: border-box; }
+        
+        .progress-bg { grid-column: span 3; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; margin-top: 2px; }
         .progress-bar { height: 100%; width: 0%; background: var(--blue); transition: width 0.3s; }
-        .perc-text { grid-column: span 3; text-align: right; font-size: 0.85rem; font-weight: bold; color: var(--blue); margin-top: -5px; }
+        .perc-text { grid-column: span 3; text-align: right; font-size: 0.8rem; font-weight: bold; color: var(--blue); }
 
-        .result-box { margin-top: 25px; padding: 20px; background: #e8f5e9; border-radius: 10px; text-align: center; border: 2px solid #c8e6c9; }
-        .tramo-tag { background: var(--orange); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
-        .total-money { font-size: 2.2rem; color: var(--green); font-weight: bold; margin: 10px 0; }
-        .ponderado-info { color: #666; font-size: 0.9rem; }
+        .result-box { margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; text-align: center; border: 1px solid #c8e6c9; }
+        .tramo-tag { background: var(--orange); color: white; padding: 3px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; }
+        .total-money { font-size: 2rem; color: var(--green); font-weight: bold; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -39,92 +35,102 @@
     <h2>Cumplimiento de Metas</h2>
     <div class="grid">
         <label>Suscripción (50%)</label>
-        <div><label>Meta</label><input type="number" id="m_susc" value="58" onkeyup="ejecutarCalculo()"></div>
-        <div><label>Venta</label><input type="number" id="v_susc" value="0" onkeyup="ejecutarCalculo()"></div>
+        <input type="number" id="m_susc" value="58" placeholder="Meta">
+        <input type="number" id="v_susc" value="0" placeholder="Venta">
         <div class="perc-text" id="t_susc">0%</div>
         <div class="progress-bg"><div class="progress-bar" id="b_susc"></div></div>
     </div>
+
     <div class="grid">
         <label>Porta Post (30%)</label>
-        <div><label>Meta</label><input type="number" id="m_porta" value="38" onkeyup="ejecutarCalculo()"></div>
-        <div><label>Venta</label><input type="number" id="v_porta" value="0" onkeyup="ejecutarCalculo()"></div>
+        <input type="number" id="m_porta" value="38" placeholder="Meta">
+        <input type="number" id="v_porta" value="0" placeholder="Venta">
         <div class="perc-text" id="t_porta">0%</div>
         <div class="progress-bg"><div class="progress-bar" id="b_porta"></div></div>
     </div>
+
     <div class="grid">
         <label>Fibra (20%)</label>
-        <div><label>Meta</label><input type="number" id="m_fibra" value="5" onkeyup="ejecutarCalculo()"></div>
-        <div><label>Venta</label><input type="number" id="v_fibra" value="0" onkeyup="ejecutarCalculo()"></div>
+        <input type="number" id="m_fibra" value="5" placeholder="Meta">
+        <input type="number" id="v_fibra" value="0" placeholder="Venta">
         <div class="perc-text" id="t_fibra">0%</div>
         <div class="progress-bg"><div class="progress-bar" id="b_fibra"></div></div>
     </div>
 
-    <h2>Unidades Vendidas (Liquidar)</h2>
-    <div class="grid-units">
-        <label>Voz Captura / Porta Pre / MIS</label>
-        <input type="number" id="u_cap" value="0" onkeyup="ejecutarCalculo()">
-    </div>
-    <div class="grid-units">
-        <label>Voz Base</label>
-        <input type="number" id="u_base" value="0" onkeyup="ejecutarCalculo()">
-    </div>
-    <div class="grid-units">
-        <label>Portabilidad SS a SS</label>
-        <input type="number" id="u_ss" value="0" onkeyup="ejecutarCalculo()">
-    </div>
-    <div class="grid-units">
-        <label>Fibra Óptica (Hogar)</label>
-        <input type="number" id="u_fib" value="0" onkeyup="ejecutarCalculo()">
-    </div>
+    <h2>Unidades a Liquidar</h2>
+    <div class="grid-units"><label>Voz Captura / Porta Pre</label><input type="number" id="u_cap" value="0"></div>
+    <div class="grid-units"><label>Voz Base</label><input type="number" id="u_base" value="0"></div>
+    <div class="grid-units"><label>Porta SS a SS</label><input type="number" id="u_ss" value="0"></div>
+    <div class="grid-units"><label>Fibra Hogar</label><input type="number" id="u_fib" value="0"></div>
 
     <div class="result-box">
         <span class="tramo-tag" id="res_tramo">TRAMO 0</span>
-        <div class="ponderado-info">Cumplimiento: <strong id="res_ponderado">0%</strong></div>
+        <div style="font-size: 0.85rem; margin-top:5px;">Ponderado: <strong id="res_ponderado">0%</strong></div>
         <div class="total-money" id="res_total">$0</div>
-        <div style="font-size: 0.7rem; color: #888;">* Sin tope de sobrecumplimiento</div>
     </div>
 </div>
 
 <script>
-    function ejecutarCalculo() {
-        // Función para leer números sin que se rompa si está vacío
-        const leer = (id) => parseFloat(document.getElementById(id).value) || 0;
+    const inputs = document.querySelectorAll('input');
+    
+    function calcular() {
+        // Función segura para leer números
+        const n = (id) => {
+            const val = document.getElementById(id).value;
+            return val === "" ? 0 : parseFloat(val);
+        };
 
-        // 1. Porcentajes Individuales
-        const calcP = (idMeta, idVenta, idTxt, idBar) => {
-            const m = leer(idMeta);
-            const v = leer(idVenta);
-            const p = m > 0 ? (v / m) * 100 : 0;
+        // Porcentajes individuales
+        const pSusc = n('m_susc') > 0 ? (n('v_susc') / n('m_susc')) * 100 : 0;
+        const pPorta = n('m_porta') > 0 ? (n('v_porta') / n('m_porta')) * 100 : 0;
+        const pFibra = n('m_fibra') > 0 ? (n('v_fibra') / n('m_fibra')) * 100 : 0;
+
+        // Actualizar visualmente cada item
+        const actualizarItem = (idTxt, idBar, p) => {
             document.getElementById(idTxt).innerText = p.toFixed(1) + '%';
             document.getElementById(idBar).style.width = Math.min(p, 100) + '%';
             document.getElementById(idBar).style.backgroundColor = p >= 100 ? '#2E7D32' : '#1976D2';
-            return p;
         };
 
-        const pSusc = calcP('m_susc', 'v_susc', 't_susc', 'b_susc');
-        const pPorta = calcP('m_porta', 'v_porta', 't_porta', 'b_porta');
-        const pFibra = calcP('m_fibra', 'v_fibra', 't_fibra', 'b_fibra');
+        actualizarItem('t_susc', 'b_susc', pSusc);
+        actualizarItem('t_porta', 'b_porta', pPorta);
+        actualizarItem('t_fibra', 'b_fibra', pFibra);
 
-        // 2. Ponderado Total (Sin límite de 130)
-        const totalPonderado = (pSusc * 0.5) + (pPorta * 0.3) + (pFibra * 0.2);
-        document.getElementById('res_ponderado').innerText = totalPonderado.toFixed(2) + '%';
+        // Ponderado Total (Sin topes)
+        const totalP = (pSusc * 0.5) + (pPorta * 0.3) + (pFibra * 0.2);
+        document.getElementById('res_ponderado').innerText = totalP.toFixed(2) + '%';
 
-        // 3. Tabla de Tramos
+        // Definir Tramo y Precios
         let tramo = 0;
-        let pago = { cap: 0, base: 0, ss: 0, fib: 0 };
+        let paco = { cap: 0, base: 0, ss: 0, fib: 0 };
 
-        if (totalPonderado >= 116) {
-            tramo = 5; pago = { cap: 1000, base: 2000, ss: 3500, fib: 20000 };
-        } else if (totalPonderado >= 106) {
-            tramo = 4; pago = { cap: 800, base: 1500, ss: 2800, fib: 15000 };
-        } else if (totalPonderado >= 100) {
-            tramo = 3; pago = { cap: 500, base: 1000, ss: 2300, fib: 10000 };
-        } else if (totalPonderado >= 90) {
-            tramo = 2; pago = { cap: 400, base: 800, ss: 1200, fib: 6000 };
-        } else if (totalPonderado >= 80) {
-            tramo = 1; pago = { cap: 350, base: 500, ss: 800, fib: 5000 };
+        if (totalP >= 116) {
+            tramo = 5; paco = { cap: 1000, base: 2000, ss: 3500, fib: 20000 };
+        } else if (totalP >= 106) {
+            tramo = 4; paco = { cap: 800, base: 1500, ss: 2800, fib: 15000 };
+        } else if (totalP >= 100) {
+            tramo = 3; paco = { cap: 500, base: 1000, ss: 2300, fib: 10000 };
+        } else if (totalP >= 90) {
+            tramo = 2; paco = { cap: 400, base: 800, ss: 1200, fib: 6000 };
+        } else if (totalP >= 80) {
+            tramo = 1; paco = { cap: 350, base: 500, ss: 800, fib: 5000 };
         }
 
-        // 4. Multiplicación de Unidades
-        const granTotal = 
-            (leer
+        // Cálculo final
+        const final = (n('u_cap') * paco.cap) + (n('u_base') * paco.base) + (n('u_ss') * paco.ss) + (n('u_fib') * paco.fib);
+
+        document.getElementById('res_tramo').innerText = 'TRAMO ' + tramo;
+        document.getElementById('res_total').innerText = '$' + Math.floor(final).toLocaleString('es-CL');
+    }
+
+    // Escuchar cambios en todos los inputs
+    inputs.forEach(input => {
+        input.addEventListener('input', calcular);
+    });
+
+    // Iniciar
+    calcular();
+</script>
+
+</body>
+</html>
