@@ -3,122 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Comisiones Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Calculadora Comisiones OK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --md-blue: #1976D2;
-            --md-orange: #FF9800;
-            --md-bg: #F5F5F5;
-            --md-card: #FFFFFF;
-            --md-text: #212121;
-            --md-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --blue: #1976D2; --orange: #FF9800; --green: #2E7D32; --bg: #f0f2f5;
         }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 15px; margin: 0; }
+        .card { background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: var(--blue); text-align: center; font-size: 1.4rem; margin-bottom: 20px; }
+        h2 { color: var(--orange); font-size: 0.9rem; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 20px; }
+        
+        .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: center; margin-bottom: 15px; }
+        .grid-units { display: grid; grid-template-columns: 3fr 1fr; gap: 10px; margin-bottom: 8px; }
+        
+        label { font-size: 0.8rem; color: #555; font-weight: bold; }
+        input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; box-sizing: border-box; background: #fafafa; }
+        input:focus { outline: none; border-color: var(--blue); background: #fff; }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--md-bg);
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
+        .progress-bg { grid-column: span 3; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; position: relative; }
+        .progress-bar { height: 100%; width: 0%; background: var(--blue); transition: width 0.3s; }
+        .perc-text { grid-column: span 3; text-align: right; font-size: 0.85rem; font-weight: bold; color: var(--blue); margin-top: -5px; }
 
-        .card {
-            background: var(--md-card);
-            width: 100%;
-            max-width: 600px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: var(--md-shadow);
-        }
-
-        h1 { color: var(--md-blue); text-align: center; font-size: 1.5rem; }
-        h2 { color: var(--md-orange); font-size: 1rem; margin-top: 25px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-
-        .input-group {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
-            align-items: end;
-        }
-
-        .unit-group {
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-
-        label { font-size: 0.85rem; color: #666; display: block; }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .progress-container {
-            grid-column: span 3;
-            height: 6px;
-            background: #eee;
-            border-radius: 3px;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: var(--md-blue);
-            border-radius: 3px;
-            transition: width 0.3s;
-        }
-
-        .perc-label {
-            grid-column: span 3;
-            text-align: right;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--md-blue);
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: var(--md-blue);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .result-panel {
-            margin-top: 20px;
-            padding: 20px;
-            background: #E8F5E9;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .total-amount {
-            font-size: 2rem;
-            color: #2E7D32;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .tramo-badge {
-            background: var(--md-orange);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
+        .result-box { margin-top: 25px; padding: 20px; background: #e8f5e9; border-radius: 10px; text-align: center; border: 2px solid #c8e6c9; }
+        .tramo-tag { background: var(--orange); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .total-money { font-size: 2.2rem; color: var(--green); font-weight: bold; margin: 10px 0; }
+        .ponderado-info { color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -127,42 +37,94 @@
     <h1>Calculadora de Comisiones</h1>
 
     <h2>Cumplimiento de Metas</h2>
-    
-    <div class="input-group">
-        <div><label>Suscripción (50%)</label></div>
-        <div><label>Meta</label><input type="number" id="m_susc" value="58" oninput="calcularTodo()"></div>
-        <div><label>Venta</label><input type="number" id="v_susc" value="0" oninput="calcularTodo()"></div>
-        <div class="perc-label" id="txt_p_susc">0%</div>
-        <div class="progress-container"><div id="bar_susc" class="progress-bar"></div></div>
+    <div class="grid">
+        <label>Suscripción (50%)</label>
+        <div><label>Meta</label><input type="number" id="m_susc" value="58" onkeyup="ejecutarCalculo()"></div>
+        <div><label>Venta</label><input type="number" id="v_susc" value="0" onkeyup="ejecutarCalculo()"></div>
+        <div class="perc-text" id="t_susc">0%</div>
+        <div class="progress-bg"><div class="progress-bar" id="b_susc"></div></div>
+    </div>
+    <div class="grid">
+        <label>Porta Post (30%)</label>
+        <div><label>Meta</label><input type="number" id="m_porta" value="38" onkeyup="ejecutarCalculo()"></div>
+        <div><label>Venta</label><input type="number" id="v_porta" value="0" onkeyup="ejecutarCalculo()"></div>
+        <div class="perc-text" id="t_porta">0%</div>
+        <div class="progress-bg"><div class="progress-bar" id="b_porta"></div></div>
+    </div>
+    <div class="grid">
+        <label>Fibra (20%)</label>
+        <div><label>Meta</label><input type="number" id="m_fibra" value="5" onkeyup="ejecutarCalculo()"></div>
+        <div><label>Venta</label><input type="number" id="v_fibra" value="0" onkeyup="ejecutarCalculo()"></div>
+        <div class="perc-text" id="t_fibra">0%</div>
+        <div class="progress-bg"><div class="progress-bar" id="b_fibra"></div></div>
     </div>
 
-    <div class="input-group">
-        <div><label>Porta Post (30%)</label></div>
-        <div><label>Meta</label><input type="number" id="m_porta" value="38" oninput="calcularTodo()"></div>
-        <div><label>Venta</label><input type="number" id="v_porta" value="0" oninput="calcularTodo()"></div>
-        <div class="perc-label" id="txt_p_porta">0%</div>
-        <div class="progress-container"><div id="bar_porta" class="progress-bar"></div></div>
+    <h2>Unidades Vendidas (Liquidar)</h2>
+    <div class="grid-units">
+        <label>Voz Captura / Porta Pre / MIS</label>
+        <input type="number" id="u_cap" value="0" onkeyup="ejecutarCalculo()">
     </div>
-
-    <div class="input-group">
-        <div><label>Fibra (20%)</label></div>
-        <div><label>Meta</label><input type="number" id="m_fibra" value="5" oninput="calcularTodo()"></div>
-        <div><label>Venta</label><input type="number" id="v_fibra" value="0" oninput="calcularTodo()"></div>
-        <div class="perc-label" id="txt_p_fibra">0%</div>
-        <div class="progress-container"><div id="bar_fibra" class="progress-bar"></div></div>
-    </div>
-
-    <h2>Unidades a Liquidar</h2>
-    <div class="unit-group">
-        <label>Voz Captura / Porta Prepago / MIS</label>
-        <input type="number" id="q_captura" value="0" oninput="calcularTodo()">
-    </div>
-    <div class="unit-group">
+    <div class="grid-units">
         <label>Voz Base</label>
-        <input type="number" id="q_base" value="0" oninput="calcularTodo()">
+        <input type="number" id="u_base" value="0" onkeyup="ejecutarCalculo()">
     </div>
-    <div class="unit-group">
+    <div class="grid-units">
         <label>Portabilidad SS a SS</label>
-        <input type="number" id="q_ss" value="0" oninput="calcularTodo()">
+        <input type="number" id="u_ss" value="0" onkeyup="ejecutarCalculo()">
     </div>
-    <div class="unit-group">
+    <div class="grid-units">
+        <label>Fibra Óptica (Hogar)</label>
+        <input type="number" id="u_fib" value="0" onkeyup="ejecutarCalculo()">
+    </div>
+
+    <div class="result-box">
+        <span class="tramo-tag" id="res_tramo">TRAMO 0</span>
+        <div class="ponderado-info">Cumplimiento: <strong id="res_ponderado">0%</strong></div>
+        <div class="total-money" id="res_total">$0</div>
+        <div style="font-size: 0.7rem; color: #888;">* Sin tope de sobrecumplimiento</div>
+    </div>
+</div>
+
+<script>
+    function ejecutarCalculo() {
+        // Función para leer números sin que se rompa si está vacío
+        const leer = (id) => parseFloat(document.getElementById(id).value) || 0;
+
+        // 1. Porcentajes Individuales
+        const calcP = (idMeta, idVenta, idTxt, idBar) => {
+            const m = leer(idMeta);
+            const v = leer(idVenta);
+            const p = m > 0 ? (v / m) * 100 : 0;
+            document.getElementById(idTxt).innerText = p.toFixed(1) + '%';
+            document.getElementById(idBar).style.width = Math.min(p, 100) + '%';
+            document.getElementById(idBar).style.backgroundColor = p >= 100 ? '#2E7D32' : '#1976D2';
+            return p;
+        };
+
+        const pSusc = calcP('m_susc', 'v_susc', 't_susc', 'b_susc');
+        const pPorta = calcP('m_porta', 'v_porta', 't_porta', 'b_porta');
+        const pFibra = calcP('m_fibra', 'v_fibra', 't_fibra', 'b_fibra');
+
+        // 2. Ponderado Total (Sin límite de 130)
+        const totalPonderado = (pSusc * 0.5) + (pPorta * 0.3) + (pFibra * 0.2);
+        document.getElementById('res_ponderado').innerText = totalPonderado.toFixed(2) + '%';
+
+        // 3. Tabla de Tramos
+        let tramo = 0;
+        let pago = { cap: 0, base: 0, ss: 0, fib: 0 };
+
+        if (totalPonderado >= 116) {
+            tramo = 5; pago = { cap: 1000, base: 2000, ss: 3500, fib: 20000 };
+        } else if (totalPonderado >= 106) {
+            tramo = 4; pago = { cap: 800, base: 1500, ss: 2800, fib: 15000 };
+        } else if (totalPonderado >= 100) {
+            tramo = 3; pago = { cap: 500, base: 1000, ss: 2300, fib: 10000 };
+        } else if (totalPonderado >= 90) {
+            tramo = 2; pago = { cap: 400, base: 800, ss: 1200, fib: 6000 };
+        } else if (totalPonderado >= 80) {
+            tramo = 1; pago = { cap: 350, base: 500, ss: 800, fib: 5000 };
+        }
+
+        // 4. Multiplicación de Unidades
+        const granTotal = 
+            (leer
